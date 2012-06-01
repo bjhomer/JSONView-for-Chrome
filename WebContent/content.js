@@ -62,6 +62,16 @@ function extractData(rawText) {
 			text : rawText,
 			offset : 0
 		};
+	// Check for a leading 'while(1)'
+	tokens = text.match(/^[^{\[]*(.*)$/);
+	if (tokens && tokens[1]) {
+		if (test(tokens[1].trim())) 
+			return {
+				text : tokens[1],
+				offset : rawText.indexOf(tokens[1])
+			};
+	}
+	
 	tokens = text.match(/^([^\s\(]*)\s*\(([\s\S]*)\)\s*;?$/);
 	if (tokens && tokens[1] && tokens[2]) {
 		if (test(tokens[2].trim()))
